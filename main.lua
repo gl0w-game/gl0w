@@ -13,6 +13,13 @@ local function convertHex(hex)
     return unpack(splitToRGB)
 end
 
+
+function sleep(n)
+    local t0 = clock()
+    while clock() - t0 <= n do end
+end
+
+
 --====================================
 
 width = love.graphics.getWidth()
@@ -54,9 +61,9 @@ end
 
 waves = {}
 
-waves[RED] = Wave(RED, 170, 0, 7, 0.05, 80)
-waves[GREEN] = Wave(GREEN, 300, 60, 7, 0.05, 120)
-waves[BLUE] = Wave(BLUE, 520, 0, 7, 0.05, 180)
+waves[RED] = Wave(RED, 270, 0, 7, 0.02, 80)
+waves[GREEN] = Wave(GREEN, 300, 60, 7, 0.02, 120)
+waves[BLUE] = Wave(BLUE, 420, 0, 7, 0.02, 180)
 
 -- waves[RED] = Wave(RED, 170, 0, 0.7, 0.05, 80)
 -- waves[GREEN] = Wave(GREEN, 300, 60, 0.7, 0.05, 120)
@@ -116,6 +123,8 @@ function love.keyreleased(key, scancode)
 end
 
 function love.update(dt)
+    require("lovebird").update()
+    dt=0.001
     maintimer = maintimer + dt
 
     -- alter_timer = alter_timer+dt
@@ -193,8 +202,9 @@ function drawstuff()
             love.graphics.circle( "fill", pos_x + wave.offset_x, pos_y + wave.offset_y, 2)
 
             if pos_y == math.floor(player.pos_y) then
-
-                wave.pos_player_x = math.floor(pos_x)
+                
+                
+                wave.pos_player_x = math.floor(wave_point(pos_y-wave.offset_y, wave.speed, wave.freq, wave.amplitude)) + wave.offset_x 
 
                 if wave_color == player.color then
                         set_color(wave.color)
@@ -208,8 +218,10 @@ function drawstuff()
         end
     end
 
-    if waves[RED].pos_player_x == waves[GREEN].pos_player_x then
-        love.graphics.print("collision 1-2!", 0,50)
+    print( "RED:\t"..waves[RED].pos_player_x.."\tGRN:"..waves[GREEN].pos_player_x.."\t\tBLU:"..waves[BLUE].pos_player_x.."\tR-G:\t"..math.abs(waves[RED].pos_player_x - waves[GREEN].pos_player_x) .."\tR-B:".. math.abs(waves[RED].pos_player_x - waves[BLUE].pos_player_x) .."\t\tG-B:".. math.abs(waves[GREEN].pos_player_x - waves[BLUE].pos_player_x) )
+
+    if math.abs(waves[RED].pos_player_x - waves[GREEN].pos_player_x) < 8 then
+        print("collision 1-2!")
         -- if player["color"] == colors[1] then
         --     player["color"] = colors[2]
         -- else
@@ -217,8 +229,8 @@ function drawstuff()
         -- end
     end
 
-    if waves[RED].pos_player_x == waves[BLUE].pos_player_x then
-        love.graphics.print("collision 1-3!", 0,50)
+    if math.abs(waves[RED].pos_player_x - waves[BLUE].pos_player_x) < 8 then
+        print("collision 1-3!")
         -- if player["color"] == colors[1] then
         --     player["color"] = colors[3]
         -- else
@@ -226,8 +238,8 @@ function drawstuff()
         -- end
     end
 
-    if waves[GREEN].pos_player_x == waves[BLUE].pos_player_x then
-        love.graphics.print("collision 2-3!", 0,50)
+    if math.abs(waves[GREEN].pos_player_x - waves[BLUE].pos_player_x) < 8 then
+        print("collision 2-3!")
         -- if player["color"] == colors[2] then
         --     player["color"] = colors[3]
         -- else
