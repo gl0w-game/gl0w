@@ -29,7 +29,7 @@ function love.keypressed(key, scancode, isrepeat)
         state.switch("splash")
     end
     if key == "space" and not isrepeat then
-        state.switch("game")
+        state.switch("instructions")
     end
 end
 
