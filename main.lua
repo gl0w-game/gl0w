@@ -7,6 +7,7 @@
 --   _|_|
 
 state = require 'libs/stateswitcher'
+require 'audio'
 RELEASE = false -- you know it
 
 if RELEASE then

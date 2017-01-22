@@ -1,4 +1,5 @@
 function love.update(dt)
+    runAudio(dt)
 end
 
 function love.draw()

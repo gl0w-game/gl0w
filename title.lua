@@ -13,6 +13,7 @@ oldtv = scanlines:chain(crt)
 
 function love.update(dt)
     timer = timer + dt
+    runAudio(dt)
 end
 
 function love.keypressed(key, scancode, isrepeat)

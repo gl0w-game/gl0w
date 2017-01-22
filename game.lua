@@ -30,6 +30,8 @@ diff = 1
 
 function love.keypressed(key, scancode, isrepeat)
     if key == "escape" and not isrepeat then
+        setTempo(120)
+        setMelody(0)
         state.switch("title")
     end
 
@@ -44,12 +46,10 @@ function love.update(dt)
     end
     maintimer = maintimer + dt
     alter_timer = alter_timer + dt
-
+    runAudio(dt)
     if alter_timer > 0.1 then
         alter_timer = alter_timer - 0.1
         diff = diff + 0.0025
-
-        print(diff)
         colors = {Colors.RED, Colors.GREEN, Colors.BLUE}
         waves[colors[love.math.random(1,3)]].estado=love.math.random(-1,1)
 
@@ -93,8 +93,12 @@ function love.update(dt)
     end
 
     if player.pos_y < -18 then
+        setTempo(120)
+        setMelody(0)
         state.switch("gameover")
     elseif player.pos_y > height+18 then
+        setTempo(120)
+        setMelody(0)
         state.switch("gameover")
     end
 
@@ -141,12 +145,23 @@ function handleColission(color1, color2)
         if math.abs(waves[color1].pos_x - waves[color2].pos_x) < colission_range then
             if player.color == color1 or player.color == color2 then
                 if (color1 == Colors.RED and color2 == Colors.BLUE) then
+                    setTempo(150)
                     isBonus = true
                 end
                 player.current_wave = player.color
                 if player.color == Colors.GREEN then
+                    setTempo(120)
                     isBonus = false
                 end
+
+                if player.color==Colors.RED then
+                    setMelody(1)
+                elseif player.color==Colors.GREEN then
+                    setMelody(2)
+                else
+                    setMelody(3)
+                end
+
             end
         end
     end
