@@ -1,10 +1,18 @@
 local shine = require 'libs/shine'
+require 'helpers/colors'
 
 local timer = 0
 
 local logo = love.graphics.newImage("assets/logo.png")
 local spacebar = love.graphics.newImage("assets/spacebar.png")
+local bitfont = love.graphics.newFont("assets/pressstart2p.ttf", 18)
+love.graphics.setFont(bitfont)
 
+if not love.filesystem.exists('highscore.txt') then
+    love.filesystem.write('highscore.txt', 10000)
+end
+highscore = love.filesystem.read('highscore.txt')
+highscore = tonumber(highscore)
 
 gr = shine.godsray({exposure=2, decay=0.91})
 scanlines = shine.scanlines({pixel_size=5})
@@ -61,6 +69,12 @@ function love.draw()
         -- blinking spacebar indicator
         love.graphics.setColor(255,255,255,math.floor(timer)%2==1 and 0 or 255)
         love.graphics.draw(spacebar, (width/2), (height/2), 0, 1, 1, (width/2), (height/2))
+
+        set_color(Colors.WHITE)
+        love.graphics.print("CREDITS",80,40)
+        love.graphics.print("FREE PLAY",80,60)
+        love.graphics.print("HIGH",800-80-(bitfont:getWidth("HIGH")),40)
+        love.graphics.print(math.floor(highscore),800-80-(bitfont:getWidth(math.floor(highscore))),60)
 
     end)
 end

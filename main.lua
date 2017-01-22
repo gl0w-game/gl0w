@@ -8,7 +8,7 @@
 
 state = require 'libs/stateswitcher'
 require 'audio'
-RELEASE = false -- you know it
+RELEASE = true -- you know it
 
 if RELEASE then
     love.window.setMode(800, 600, {resizable=false, vsync=true, fullscreentype="exclusive"})

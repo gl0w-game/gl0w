@@ -1,4 +1,4 @@
-colission_range = 12
+colission_range = 18
 alter_freq = 0.0001
 alter_amplitude = 0.1
 alter_offset = 1

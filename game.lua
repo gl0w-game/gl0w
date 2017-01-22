@@ -9,7 +9,18 @@ require 'helpers/background'
 maintimer = 0
 
 score = 0
+highscore = 0
 isBonus = false
+
+if not love.filesystem.exists('highscore.txt') then
+    love.filesystem.write('highscore.txt', 10000)
+end
+highscore = love.filesystem.read('highscore.txt')
+highscore = tonumber(highscore)
+
+
+local bitfont = love.graphics.newFont("assets/pressstart2p.ttf", 18)
+love.graphics.setFont(bitfont)
 
 
 waves = {}
@@ -32,6 +43,7 @@ function love.keypressed(key, scancode, isrepeat)
     if key == "escape" and not isrepeat then
         setTempo(120)
         setMelody(0)
+        love.filesystem.write('highscore.txt', highscore)
         state.switch("title")
     end
 
@@ -92,14 +104,20 @@ function love.update(dt)
         background.y = background.y - height
     end
 
+    if score > highscore then
+        highscore = score
+    end
+
     if player.pos_y < -18 then
         setTempo(120)
         setMelody(0)
-        state.switch("gameover")
+        love.filesystem.write('highscore.txt', highscore)
+        state.switch("gameover;"..score..";"..highscore)
     elseif player.pos_y > height+18 then
         setTempo(120)
         setMelody(0)
-        state.switch("gameover")
+        love.filesystem.write('highscore.txt', highscore)
+        state.switch("gameover;"..score..";"..highscore)
     end
 
 end
@@ -130,10 +148,6 @@ function drawEverythingElse()
     handleColission(Colors.RED,Colors.BLUE)
     handleColission(Colors.GREEN,Colors.BLUE)
     handleColission(Colors.GREEN,Colors.RED)
-
-    set_color(Colors.WHITE)
-    love.graphics.print("T:"..maintimer,0,0)
-    love.graphics.print("SCORE:".. math.floor(score),0,40)
 end
 
 function handleColission(color1, color2)
@@ -203,6 +217,12 @@ function love.draw()
             love.graphics.draw(background.image, 0, background.y)
             love.graphics.draw(background.image, 0, background.y - height)
         end
+        set_color(Colors.WHITE)
+        love.graphics.print("SCORE",80,40)
+        love.graphics.print(math.floor(score),80,60)
+        love.graphics.print("HIGH",800-80-(bitfont:getWidth("HIGH")),40)
+        love.graphics.print(math.floor(highscore),800-80-(bitfont:getWidth(math.floor(highscore))),60)
+
         drawEverythingElse()
     end)
 end
