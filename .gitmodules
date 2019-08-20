@@ -1,0 +1,6 @@
+[submodule "libs/moonshine"]
+	path = libs/moonshine
+	url = https://github.com/vrld/moonshine.git
+[submodule "libs/lovebird"]
+	path = libs/lovebird
+	url = https://github.com/rxi/lovebird.git
