@@ -1,13 +1,12 @@
-local shine = require 'libs/shine'
 local timer = 0
 local splash = love.graphics.newImage("assets/splashggj.png")
+local opacity = 0;
 
-gr = shine.godsray({exposure=25, decay=1})
-scanlines = shine.scanlines({pixel_size=5})
-crt = shine.crt()
-oldtv = scanlines:chain(crt)
+gl0w.audio.setPlaying(false)
 
 function love.update(dt)
+    lovebird.update()
+    gl0w.audio.run(dt)
     timer = timer + dt
     opacity = 255-(70*timer-3)
 end
@@ -22,9 +21,9 @@ function love.keypressed(key, scancode, isrepeat)
 end
 
 function love.draw()
-    oldtv:draw(function()
+    gl0w.effects.oldtv.draw(function()
         if opacity > 0 then
-            love.graphics.setColor(255, 255, 255, timer<2 and 255 or opacity )
+            love.graphics.setColor(1, 1, 1, timer<2 and 1 or (opacity/255) )
         else
             state.switch("title")
         end

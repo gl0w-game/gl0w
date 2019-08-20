@@ -1,21 +1,15 @@
-score=passvar[1]
+require 'helpers/colors'
+local score=passvar[1]
 score=tonumber(score)
-highscore=passvar[2]
+local highscore=passvar[2]
 highscore=tonumber(highscore)
+
 state.clear()
 
 textstring = "THIS GAME WAS CREATED DURING #GGJ2017 ---------------- TEAM GL0W ---------------- CODE: MARIANO AQUINO (DRMAQUINO) & MATIAS NAHUEL CARBALLO (MNCARBALLO) ---------------- MUSIC: MATIAS BONTEMPO ---------------- IDEAS AND MORAL SUPPORT: FAYSAL NOUFOURI ---------------- SPECIAL THANKS TO GLOBANT - FOR THE GRUBS AND CAFFEINE THAT MADE THIS PROJECT POSSIBLE! ---------------- SEE YOU IN THE NEXT GLOBAL GAME JAM!"
 
-local shine = require 'libs/shine'
-require 'helpers/colors'
-
 local timer = 0
-local bitfont = love.graphics.newFont("assets/pressstart2p.ttf", 18)
-love.graphics.setFont(bitfont)
 
-scanlines = shine.scanlines({pixel_size=5})
-crt = shine.crt()
-oldtv = scanlines:chain(crt)
 yBase = 500;
 scrollerHeight = 30;
 letterSize = 21;
@@ -30,16 +24,17 @@ function initScroller()
 	for i = 1,textstring:len() do
 		angle[i] = i*6;
 		x[i] = w+i*letterSize;
-	end	
+	end
 end
 initScroller();
 
 
 function love.update(dt)
+    lovebird.update()
     timer = timer + dt
-    runAudio(dt)
+    gl0w.audio.run(dt)
     for i = 1,textstring:len() do
-        angle[i] = angle[i] + math.pi/1.5 * dt;		
+        angle[i] = angle[i] + math.pi/1.5 * dt;
         x[i] = x[i] - letterSize*9*dt;
         if x[textstring:len()-1] < -letterSize*2 then
             initScroller();
@@ -49,7 +44,6 @@ function love.update(dt)
 		coldx = coldx *-1;
 	end
 	col = col + coldx*dt;
-    
 end
 
 function love.keypressed(key, scancode, isrepeat)
@@ -61,12 +55,8 @@ function love.keypressed(key, scancode, isrepeat)
     end
 end
 
-
-
-
-
 function love.draw()
-    oldtv:draw(function()
+    gl0w.effects.oldtv.draw(function()
 
         set_color(Colors.WHITE)
         love.graphics.print("SCORE",80,40)
@@ -85,21 +75,18 @@ function love.draw()
             love.graphics.print("TRY AGAIN",(800-(bitfont:getWidth("TRY AGAIN")))/2,300)
         end
 
-        for i = 1,textstring:len() do	
+        for i = 1,textstring:len() do
 
             local yflip = yBase + 40 + scrollerHeight + math.sin(angle[i])*scrollerHeight/2;
             local y = yBase - scrollerHeight - math.sin(angle[i])*scrollerHeight;
-            
+
             c = textstring:sub(i,i);
             if x[i] > 2*-letterSize and x[i] < width+50 then
-                love.graphics.setColor(255, col, 255, 40);
-                love.graphics.printf(c,math.floor(x[i]),math.floor(yflip),900,"left",0,1,-1);			
-
-                love.graphics.setColor(255, 255, col, 255);
+                love.graphics.setColor(1, col/255, 1, 0.15);
+                love.graphics.printf(c,math.floor(x[i]),math.floor(yflip),900,"left",0,1,-1);
+                love.graphics.setColor(1, 1, col/255, 1);
                 love.graphics.print(c,math.floor(x[i]),math.floor(y));
-            end		
+            end
         end
-
-
     end)
 end

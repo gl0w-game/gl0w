@@ -13,7 +13,6 @@ function love.conf(t)
     t.window.highdpi = false
     t.window.x = nil
     t.window.y = nil
- 
     t.modules.joystick = false
     t.modules.mouse = false
     t.modules.physics = false
