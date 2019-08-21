@@ -1,6 +1,6 @@
 local timer = 0
 local splash = love.graphics.newImage("assets/splashggj.png")
-local opacity = 0;
+local opacity = 0
 
 gl0w.audio.setPlaying(false)
 
@@ -8,7 +8,7 @@ function love.update(dt)
     lovebird.update()
     gl0w.audio.run(dt)
     timer = timer + dt
-    opacity = 255-(70*timer-3)
+    opacity = 255 - (70 * timer - 3)
 end
 
 function love.keypressed(key, scancode, isrepeat)
@@ -19,14 +19,28 @@ function love.keypressed(key, scancode, isrepeat)
         state.switch("title")
     end
 end
+function love.joystickpressed( joystick, button )
+    love.keypressed("space", 1, false)
+end
 
 function love.draw()
-    gl0w.effects.oldtv.draw(function()
-        if opacity > 0 then
-            love.graphics.setColor(1, 1, 1, timer<2 and 1 or (opacity/255) )
-        else
-            state.switch("title")
+    gl0w.effects.oldtv.draw(
+        function()
+            if opacity > 0 then
+                love.graphics.setColor(1, 1, 1, timer < 2 and 1 or (opacity / 255))
+            else
+                state.switch("title")
+            end
+            love.graphics.draw(
+                splash,
+                (width / 2),
+                (height / 2),
+                0,
+                timer < 2 and 1 or timer - 1,
+                timer < 2 and 1 or timer - 1,
+                (width / 2),
+                (height / 2)
+            )
         end
-        love.graphics.draw(splash, (width/2), (height/2), 0, timer<2 and 1 or timer-1, timer<2 and 1 or timer-1, (width/2), (height/2))
-    end)
+    )
 end

@@ -13,12 +13,13 @@ function Wave(color, offset_x, offset_y, speed, freq, amplitude)
     wave = {}
     wave.color = color
     wave.offset_x = offset_x
+    wave.base_offset_x = offset_x
     wave.offset_y = offset_y
     wave.speed = speed
     wave.freq = freq
     wave.amplitude = amplitude
-    wave.pos_player_x = 0
-    wave.estado = 0
+    wave.status = 0
+    wave.pos_x = {}
     return wave
 end
 

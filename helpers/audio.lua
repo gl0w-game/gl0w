@@ -23,6 +23,8 @@ local audio = {}
     local dead = love.audio.newSource("assets/samples/dead.wav","static")
     local bonus = love.audio.newSource("assets/samples/bonus.wav","static")
     local switch = love.audio.newSource("assets/samples/switch.wav","static")
+    local countdown = love.audio.newSource("assets/samples/countdown.wav","static")
+    local gamestart = love.audio.newSource("assets/samples/gamestart.wav","static")
 
 
     local melodies = {
@@ -106,6 +108,10 @@ local audio = {}
             sample = dead
         elseif name == "switch" then
             sample = switch
+        elseif name == "countdown" then
+            sample = countdown
+        elseif name == "gamestart" then
+            sample = gamestart
         else
             sample = bonus
         end

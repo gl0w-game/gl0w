@@ -7,13 +7,13 @@ function love.conf(t)
     t.window.icon = "assets/icon.png"
     t.window.width = 800
     t.window.height = 600
-    t.window.vsync = true
+    t.window.vsync = false
     t.window.msaa = 0
-    t.window.display = 1
+    t.window.display = 2
     t.window.highdpi = false
     t.window.x = nil
     t.window.y = nil
-    t.modules.joystick = false
+    t.modules.joystick = true
     t.modules.mouse = false
     t.modules.physics = false
     t.modules.touch = false

@@ -10,7 +10,8 @@
 --          - replaced shine with moonshine
 --          - moved things into modules
 --          - added sfx
-
+RELEASE = true -- you know it
+SHOW_FPS = true
 if RELEASE then
     love.window.setMode(800, 600, {resizable=false, vsync=true, fullscreentype="exclusive"})
     love.window.setFullscreen(true, "exclusive")
@@ -29,9 +30,9 @@ gl0w.audio = require 'helpers/audio'
 state = require 'libs/stateswitcher'
 
 bitfont = love.graphics.newFont("assets/pressstart2p.ttf", 18)
+largefont = love.graphics.newFont("assets/pressstart2p.ttf", 72)
 love.graphics.setFont(bitfont)
 
-RELEASE = true -- you know it
 
 width = love.graphics.getWidth()
 height = love.graphics.getHeight()
